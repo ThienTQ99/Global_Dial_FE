@@ -3,8 +3,8 @@ import "./App.css";
 import LobbyScreen from "./screens/Lobby";
 import RoomPage from "./screens/Room";
 import PrivateRoutes from "./utils/PrivateRoutes";
-import LoginPage from "./screens/Login";
-import NavBar from "./component/NavBar";
+import LoginPage from "./screens/login/Login";
+
 
 function App() {
 
