@@ -5,22 +5,25 @@ import RoomPage from "./screens/Room";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import LoginPage from "./screens/Login";
 import NavBar from "./component/NavBar";
+import Homepage from "./screens/Homepage";
 
 function App() {
 
-  
-  
+
+
   return (
     <div className="App">
-     
-        <Routes>
-          <Route element={<PrivateRoutes />}>
-            <Route path="/" element={<LobbyScreen />} exact/>
-            <Route path="/room/:roomId" element={<RoomPage />} />
-          </Route>
-          <Route element={<LoginPage />} path="/login"/>
-        </Routes> 
-      
+
+      <Routes>
+        <Route element={<PrivateRoutes />}>
+          <Route path="/" element={<LobbyScreen />} exact />
+          <Route path="/room/:roomId" element={<RoomPage />} />
+        </Route>
+        <Route element={<LoginPage />} path="/login" />
+        <Route path="/homepage" element={<Homepage />} />
+
+      </Routes>
+
     </div>
   );
 }
