@@ -12,7 +12,7 @@
     justify-content: flex-start;
     position: fixed;
     border-bottom: 1px solid #e6e6e6;
-    background-color: #2D5BE3;
+    background-color: #8ebcd6;
     top: 0;
 }
 .avatar{
@@ -85,6 +85,29 @@
     margin-top: 2%;
     padding-left: 3%;
 }
+
+
+
+
+
+.user-users{
+    display: flex;
+    width: 100%;
+    position: relative;
+    z-index: -1;
+}
+
+.user-avatar{
+    border-radius: 50%;
+    margin: 50%;
+}
+
+.user-name{
+    margin-left: 40px;
+    font-size: medium;
+    text-align: left;
+}
+
 
 
   
