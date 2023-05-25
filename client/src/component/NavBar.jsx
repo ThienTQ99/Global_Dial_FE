@@ -14,6 +14,7 @@ const NavBar = () =>{
         localStorage.clear()
         navigate("/login")
     }
+    
     return(
         <div className="bar">
             <p className="name">Hello <b>{auth?.displayName}</b></p>

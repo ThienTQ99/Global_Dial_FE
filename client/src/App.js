@@ -1,6 +1,6 @@
 import { Routes, Route, Router } from "react-router-dom";
 import "./App.css";
-import LobbyScreen from "./screens/Lobby";
+import LobbyScreen from "./screens/callSetting/Lobby";
 import RoomPage from "./screens/Room";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import LoginPage from "./screens/login/Login";
