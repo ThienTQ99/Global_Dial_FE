@@ -24,7 +24,7 @@ const Homepage = () => {
         <div>
           <Image
             className="banner-image"
-            src="https://scontent.fsgn8-3.fna.fbcdn.net/v/t1.15752-9/346153430_961305271663257_5331120733481797337_n.png?_nc_cat=110&ccb=1-7&_nc_sid=ae9488&_nc_ohc=KrPbieIYOYgAX-9vccF&_nc_ht=scontent.fsgn8-3.fna&oh=03_AdQ6TUk-zu3KXcUWKitNfcCv8WQyLikC5oBKzURrI9yBhA&oe=6496655A"
+            src="https://static.vecteezy.com/system/resources/previews/004/329/717/non_2x/language-learning-word-concept-banner-grammar-speaking-skills-foreign-language-online-school-self-education-isolated-lettering-typography-idea-with-linear-icons-presentation-illustration-vector.jpg"
             width="90%"
             height="250px"
           />
@@ -32,7 +32,7 @@ const Homepage = () => {
         <div>
           <Image
             className="banner-image"
-            src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/english-google-classroom-banner-design-template-d5cf0a14ee89fe3c770af6980c0d7e50_screen.jpg?ts=1613049135"
+            src="https://static.vecteezy.com/system/resources/previews/004/329/717/non_2x/language-learning-word-concept-banner-grammar-speaking-skills-foreign-language-online-school-self-education-isolated-lettering-typography-idea-with-linear-icons-presentation-illustration-vector.jpg"
             width="90%"
             height="250px"
           />
