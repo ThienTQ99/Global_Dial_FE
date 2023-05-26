@@ -42,6 +42,28 @@ const LanguageSelector = ({setLanguage, isCall}) => {
       </>
     );
   };
+
+  const Tags = ({ prop }) => {
+    return (
+      <>
+        {prop.name === selected.name ? (
+          <Col className="tagsWrap" span={24}>
+            <div className="tags selected">
+              <img src={prop.url} />
+              <p style={{marginLeft:'50px', fontSize:'20px'}} className="langName">{prop.name}</p>
+            </div>
+          </Col>
+        ) : (
+          <Col className="tagsWrap" span={24}>
+            <div className="tags " onClick={()=>handleChoose(prop.name)}>
+              <img src={prop.url} />
+              <p style={{marginLeft:'50px', fontSize:'20px'}} className="langName">{prop.name}</p>
+            </div>
+          </Col>
+        )}
+      </>
+    );
+  };
   return (
     <div className="containerL">
       <div className="top">
@@ -55,11 +77,12 @@ const LanguageSelector = ({setLanguage, isCall}) => {
           {language.map((item, index) => {
             return (
               <>
-                <Tag prop={item} />
+                <Tags prop={item} />
               </>
             );
           })}
         </Row>
+        
       </div>
     </div>
   );

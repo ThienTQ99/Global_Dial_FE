@@ -18,11 +18,14 @@ const LobbyScreen = () => {
 
   const socket = useSocket();
   const navigate = useNavigate();
-
+  
   useEffect(()=>{
-   isCall&&
-   socket.emit("room:join", { email, languague , topic });
-  },[isCall])
+   if(isCall){
+
+     socket.emit("room:join", { email, languague});
+     
+   }
+  },[isCall])  
 
   // const handleSubmitForm = useCallback(
   //   (e) => {
@@ -40,16 +43,16 @@ const LobbyScreen = () => {
     (data) => {
      
       
-      const { email, room } = data;
-      if(isCall){
+      const { email, room } = data; 
+     
         navigate(`/room/${room}`);
-      }
+      
     },
-    [navigate]
+    [navigate]  
   );
 
   useEffect(() => {
-    
+    console.log(socket);
     socket.on("room:join", handleJoinRoom);
     return () => {
       socket.off("room:join", handleJoinRoom);

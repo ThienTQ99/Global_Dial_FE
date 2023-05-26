@@ -44,7 +44,7 @@ h1{
     align-items: center;
     box-shadow: -2px 2px 2px #acacac;
     cursor: pointer;
-    padding: 10px;
+    padding: 10px 20px;
     margin: 0 4px;
 }
 .tagT:hover{
