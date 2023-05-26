@@ -2,12 +2,15 @@ import React, { useEffect, useCallback, useState } from "react";
 import ReactPlayer from "react-player";
 import peer from "../service/peer";
 import { useSocket } from "../context/SocketProvider";
+import { useNavigate } from "react-router-dom";
 
 const RoomPage = () => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
+
+  const navigate = useNavigate();
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
@@ -78,6 +81,11 @@ const RoomPage = () => {
     await peer.setLocalDescription(ans);
   }, []);
 
+  const handleDisconnect=()=>{
+    socket.off()
+    navigate('/')
+  }
+
   useEffect(() => {
     peer.peer.addEventListener("track", async (ev) => {
       const remoteStream = ev.streams;
@@ -112,6 +120,7 @@ const RoomPage = () => {
   return (
     <div>
       <h1>Room Page</h1>
+      <div onClick={handleDisconnect}>Disconnect</div>
       <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
       {myStream && <button onClick={sendStreams}>Send Stream</button>}
       {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
@@ -125,6 +134,7 @@ const RoomPage = () => {
             width="200px"
             url={myStream}
           />
+          
         </>
       )}
       {remoteStream && (

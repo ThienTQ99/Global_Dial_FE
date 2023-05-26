@@ -1,8 +1,9 @@
-import { Button } from "antd"
+import { Button, Icon } from "antd"
 import { signInWithPopup } from "firebase/auth"
-import { auth, provider } from "../utils/Config"
+import { auth, provider } from "../../utils/Config"
 import { useEffect, useState } from "react"
-import { Navigate, redirect,useNavigate  } from "react-router-dom"
+import { useNavigate  } from "react-router-dom"
+import './style.css'
 
 const LoginPage = () =>{
     const [value,setValue] = useState('')
@@ -25,8 +26,12 @@ const LoginPage = () =>{
         value&& navigate('/')
     },[value])
     return(
-        <div >
-            <Button onClick={handleClick} type="primary">Sign In With Google</Button>
+        <div className="background">
+            <div className="containner">
+                <img className="logo" src="/img/logo.png"/>
+                <p className="companyName">Global Dial</p>
+                <button className="btn"  onClick={handleClick} type="primary"><img className="googleIcon" src="/img/google.png"/><b>Sign In With Google</b></button>
+            </div>
         </div>
     )
 }
