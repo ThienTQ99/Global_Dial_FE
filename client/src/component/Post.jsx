@@ -14,9 +14,24 @@ const Post = ({ author, timePosted, avatar, content, image }) => {
       </div>
       <div className="post-content">{content}</div>
       <div className="post-image">
-        {image.map((item) => {
-          return <Image className="post-image" width="300px" src={item} />;
-        })}
+        {image.length === 1 ? (
+          <Image
+            className="post-image"
+            width="500px" // Adjust the desired width
+            height="600px" // Adjust the desired height
+            src={image[0]}
+            style={{ alignItems: "center", marginLeft: "20%" }}
+          />
+        ) : (
+          image.map((item) => (
+            <Image
+              className="post-image"
+              width="350px"
+              height="400px"
+              src={item}
+            />
+          ))
+        )}
       </div>
     </>
   );

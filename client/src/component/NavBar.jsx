@@ -21,12 +21,18 @@ const NavBar = () => {
     localStorage.clear();
     navigate("/login");
   };
+
+  const onClickHomepage = () => {
+    navigate("/homepage");
+  };
   return (
     <div className="bar">
       {/* <p className="name">Hello <b>{auth?.displayName}</b></p> */}
-      <Image src={logo} className="logo" width="50px" />
+      <Image src={logo} className="logo" width="70px" />
       <Image src={name} className="logo-name" width="200px" />
-      <p className="bar-part">Home</p>
+      <p className="bar-part" onClick={onClickHomepage}>
+        Home
+      </p>
       <p className="bar-part">Community</p>
       <p className="bar-part">Course</p>
       <div className="search-place">
