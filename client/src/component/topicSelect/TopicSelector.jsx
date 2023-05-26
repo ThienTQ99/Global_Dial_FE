@@ -2,6 +2,7 @@ import { Divider, Row, Col } from "antd";
 import "./style.css";
 import {  topic } from "../../data/CallSetting";
 import { useState } from "react";
+import { Fragment } from "react";
 
 
 const TopicSelector = ({setTopic,isCall}) => {
@@ -52,9 +53,9 @@ const TopicSelector = ({setTopic,isCall}) => {
         <Row style={{padding:'0px 30px'}} justify="center">
           {topic.map((item, index) => {
             return (
-              <>
-                <Tag prop={item} />
-              </>
+              <Fragment key={index}>
+                <Tag key={index} prop={item} />
+              </Fragment>
             );
           })}
         </Row>

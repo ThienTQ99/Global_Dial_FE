@@ -13,46 +13,53 @@ const LobbyScreen = () => {
  
 
   const [topic, setTopic] = useState("Anime");
-  const [languague, setLanguage] = useState("English");
+  const [language, setLanguage] = useState("English");
   const [isCall,setIsCall] = useState(false)
 
   const socket = useSocket();
   const navigate = useNavigate();
+
+  
   
   useEffect(()=>{
-   if(isCall){
+   console.log(socket);
+    
+    if(isCall){
+      socket.emit("room:join", { email, language , topic });
 
-     socket.emit("room:join", { email, languague});
-     
-   }
-  },[isCall])  
+    }
+  },[isCall,socket])  
 
-  // const handleSubmitForm = useCallback(
-  //   (e) => {
-      
-  //     socket.emit("room:join", { email, language , topic });
+  const handleSubmitForm = useCallback(
+    (e) => {
+     
+      socket.emit("room:join", { email, language , topic });
       
      
-  //   },
-  //   [email, topic, socket]
-  // );
+    },
+    [email, topic, socket]
+  );
 
   
 
   const handleJoinRoom = useCallback(
     (data) => {
-     
+      console.log(data);
       
-      const { email, room } = data; 
      
-        navigate(`/room/${room}`);
+      if(isCall){
+
+        const { email, room } = data; 
+       
+          navigate(`/room/${room}`);
+      }
       
     },
-    [navigate]  
+    [navigate,isCall]  
   );
 
   useEffect(() => {
-    console.log(socket);
+    
     socket.on("room:join", handleJoinRoom);
     return () => {
       socket.off("room:join", handleJoinRoom);

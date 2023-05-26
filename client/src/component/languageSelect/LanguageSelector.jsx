@@ -3,6 +3,7 @@ import "./style.css";
 import { language } from "../../data/CallSetting";
 import { useState } from "react";
 import UK from "../../image/UK";
+import { Fragment } from "react";
 
 const LanguageSelector = ({setLanguage, isCall}) => {
   const [selected, setSelected] = useState({
@@ -76,9 +77,9 @@ const LanguageSelector = ({setLanguage, isCall}) => {
         <Row justify="right">
           {language.map((item, index) => {
             return (
-              <>
-                <Tags prop={item} />
-              </>
+              <Fragment key={index}>
+                <Tags key={index} prop={item} />
+              </Fragment>
             );
           })}
         </Row>
