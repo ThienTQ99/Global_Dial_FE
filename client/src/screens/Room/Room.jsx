@@ -191,13 +191,13 @@ const RoomPage = () => {
         <div className="operate-items">
           <FaMicrophone color="white" size="25px" />
         </div>
-        <div className="operate-items" onClick={toggleLocalStream}>
+        {/* <div className="operate-items" onClick={toggleLocalStream}>
           {isLocalStreamEnabled ? (
             <AiTwotoneVideoCamera color="white" size="25px" />
           ) : (
             <BsFillCameraVideoOffFill color="white" size="25px" />
           )}
-        </div>
+        </div> */}
         <div
           className="operate-items"
           style={{
