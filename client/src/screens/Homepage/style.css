@@ -2,12 +2,13 @@
     position: relative;
     margin-top: 3%;
     z-index: -1;
+
 }
 
 
 
 .banner-image{
-    border-radius: 20px;
+
 }
 
 body{
@@ -91,4 +92,5 @@ body{
     margin: 0 auto;
     place-items: center;
     width: 90%;
+
 }

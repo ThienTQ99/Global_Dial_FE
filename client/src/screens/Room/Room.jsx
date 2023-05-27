@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useState } from "react";
 import ReactPlayer from "react-player";
 import "./style.css";
 import peer from "../../service/peer";
+import { Button } from "antd";
 import { useSocket } from "../../context/SocketProvider";
 import { useNavigate } from "react-router-dom";
 import { FaMicrophone } from "react-icons/fa";
@@ -97,19 +98,8 @@ const RoomPage = () => {
       myStream.getVideoTracks().forEach((track) => {
         track.enabled = !isLocalStreamEnabled;
 
-        if (isLocalStreamEnabled) {
-          track.stop(); // Stop the video track
-          setLocalStreamEnabled(!isLocalStreamEnabled);
-        }
+        setLocalStreamEnabled(!isLocalStreamEnabled);
       });
-    } else {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      });
-      setMyStream(stream);
-      sendStreams();
-      setLocalStreamEnabled(true);
     }
   };
 
@@ -156,10 +146,14 @@ const RoomPage = () => {
   return (
     <>
       <div>
-        <div onClick={handleDisconnect}>Disconnect</div>
-        <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-        {myStream && <button onClick={sendStreams}>Send Stream</button>}
-        {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
+        {!myStream && <div onClick={handleDisconnect}>Disconnect</div>}
+        <h2 style={{ marginTop: "100px" }}>
+          {remoteSocketId ? "Connected" : "No one in room"}
+        </h2>
+        {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
+        {remoteSocketId && !myStream && (
+          <Button onClick={handleCallUser}>CALL</Button>
+        )}
         <div className="video-stream">
           <div className="my-stream">
             {myStream && (
@@ -187,27 +181,29 @@ const RoomPage = () => {
           </div>
         </div>
       </div>
-      <div className="calling-operation">
-        <div className="operate-items">
-          <FaMicrophone color="white" size="25px" />
+      {myStream && (
+        <div className="calling-operation">
+          <div className="operate-items">
+            <FaMicrophone color="white" size="25px" />
+          </div>
+          <div className="operate-items" onClick={toggleLocalStream}>
+            {isLocalStreamEnabled ? (
+              <AiTwotoneVideoCamera color="white" size="25px" />
+            ) : (
+              <BsFillCameraVideoOffFill color="white" size="25px" />
+            )}
+          </div>
+          <div
+            className="operate-items"
+            style={{
+              background: "#ea4335",
+            }}
+            onClick={handleDisconnect}
+          >
+            <AiFillPhone color="white" size="25px" />
+          </div>
         </div>
-        <div className="operate-items" onClick={toggleLocalStream}>
-          {isLocalStreamEnabled ? (
-            <AiTwotoneVideoCamera color="white" size="25px" />
-          ) : (
-            <BsFillCameraVideoOffFill color="white" size="25px" />
-          )}
-        </div>
-        <div
-          className="operate-items"
-          style={{
-            background: "#ea4335",
-          }}
-          onClick={handleDisconnect}
-        >
-          <AiFillPhone color="white" size="25px" />
-        </div>
-      </div>
+      )}
     </>
   );
 };
