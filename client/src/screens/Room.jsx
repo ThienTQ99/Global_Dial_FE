@@ -81,7 +81,8 @@ const RoomPage = () => {
     await peer.setLocalDescription(ans);
   }, []);
 
-  const handleDisconnect=()=>{
+  const handleDisconnect=async ()=>{
+  
     socket.off()
     navigate('/')
   }
