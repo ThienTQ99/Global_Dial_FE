@@ -2,10 +2,9 @@ import { Avatar, Button, Image } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import logo from "../assests/logo.png";
-import name from "../assests/globalDial.png";
-import SearchComponent from "./Search";
-import Search from "antd/es/input/Search";
+import logo from "../../assests/logo.png";
+import name from "../../assests/globalDial.png";
+import SearchComponent from "../Search/Search";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const NavBar = () => {
   };
 
   const onClickHomepage = () => {
-    navigate("/homepage");
+    navigate("/home");
   };
   return (
     <div className="bar">

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import NavBar from "../component/NavBar";
-import Post from "../component/Post";
+import NavBar from "../../component/NavBar/NavBar";
+import Post from "../../component/Posting/Post";
 import "./style.css";
 import { Divider, Image, Carousel, Button } from "antd";
-import { englishCenters } from "../data/post";
-import banner from "../assests/banner.png";
-import User from "../component/User";
+import { englishCenters } from "../../data/post";
+import banner from "../../assests/banner.png";
+import User from "../../component/User/User";
 
 const Homepage = () => {
   const [activeButton, setActiveButton] = useState("Active");
