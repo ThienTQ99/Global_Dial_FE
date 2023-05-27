@@ -92,12 +92,24 @@ const RoomPage = () => {
     navigate("/");
   };
 
-  const toggleLocalStream = () => {
+  const toggleLocalStream = async () => {
     if (myStream) {
       myStream.getVideoTracks().forEach((track) => {
         track.enabled = !isLocalStreamEnabled;
+
+        if (isLocalStreamEnabled) {
+          track.stop(); // Stop the video track
+          setLocalStreamEnabled(!isLocalStreamEnabled);
+        }
       });
-      setLocalStreamEnabled(!isLocalStreamEnabled);
+    } else {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      });
+      setMyStream(stream);
+      sendStreams();
+      setLocalStreamEnabled(true);
     }
   };
 
