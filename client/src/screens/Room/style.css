@@ -1,0 +1,33 @@
+.video-stream {
+    display: flex;
+    margin: 5% 0 2% 2%;
+}
+
+.my-stream {
+    flex:  50%;
+    margin: 0;
+}
+
+.remote-stream {
+    flex: 50%;
+}
+
+.calling-operation{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3%;
+
+}
+
+.operate-items{
+    cursor: pointer;
+    background-color: #3c4043;
+    display: flex;
+    border-radius: 50%;
+    margin-left: 20px;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+}

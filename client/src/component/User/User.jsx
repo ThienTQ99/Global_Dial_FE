@@ -1,4 +1,5 @@
 import { Button, Image } from "antd";
+import "./style.css";
 import React from "react";
 
 const User = ({ author, avatar, time }) => {

@@ -12,7 +12,7 @@
     justify-content: flex-start;
     position: fixed;
     border-bottom: 1px solid #e6e6e6;
-    background-color: #2D5BE3;
+    background-color: #1677FF;
     height: 60px;
     top: 0;
     z-index: 9999;
@@ -30,6 +30,7 @@
 }
 .logo{
     margin-left: 30px;
+    margin-bottom: 10px;
 }
 .bar-part{
     color: white;
@@ -47,69 +48,3 @@
 .css-dev-only-do-not-override-w8mnev .ant-btn-primary{
     background-color: #0B4DAF;
 }
-
-.post-header{
-    display: flex;
-    width: 100%;
-    position: relative;
-    z-index: 0;
-
-
-}
-
-.post-header-avatar{
-    border-radius: 50%;
-    margin-top: 40%;
-
-}
-
-.post-header-name{
-    margin-left: 20px;
-    text-align: left;
-}
-.post-author{
-    font-weight: 900;
-    padding-top: 3%;
-}
-
-.post-time{
-    padding-bottom: 5%;
-    margin-top: -10px;
-}
-.post-content{
-    width: 100%;
-    text-align: left;
-}
-.post-image{
-    display: flex;
-    margin-top: 2%;
-    padding-left: 3%;
-    margin-bottom: 3%;
-    align-items: center;
-}
-
-
-
-
-
-.user-users{
-    display: flex;
-    width: 100%;
-    position: relative;
-    z-index: -1;
-}
-
-.user-avatar{
-    border-radius: 50%;
-    margin: 50%;
-}
-
-.user-name{
-    margin-left: 40px;
-    font-size: medium;
-    text-align: left;
-}
-
-
-
-  
