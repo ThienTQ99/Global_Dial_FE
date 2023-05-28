@@ -5,7 +5,7 @@ import peer from "../../service/peer";
 import { Button } from "antd";
 import { useSocket } from "../../context/SocketProvider";
 import { useNavigate } from "react-router-dom";
-import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import { AiTwotoneVideoCamera, AiFillPhone } from "react-icons/ai";
 import { BsFillCameraVideoOffFill } from "react-icons/bs";
 
@@ -16,6 +16,7 @@ const RoomPage = () => {
   const [remoteStream, setRemoteStream] = useState();
   const [isLocalStreamEnabled, setLocalStreamEnabled] = useState(true);
   const [isRemoteStreamEnabled, setRemoteStreamEnabled] = useState(true);
+  const [isAudioStreamEnable, setAudioStreamEnable] = useState(true);
 
   const navigate = useNavigate();
 
@@ -97,9 +98,19 @@ const RoomPage = () => {
     if (myStream) {
       myStream.getVideoTracks().forEach((track) => {
         track.enabled = !isLocalStreamEnabled;
-
-        setLocalStreamEnabled(!isLocalStreamEnabled);
       });
+
+      setLocalStreamEnabled(!isLocalStreamEnabled);
+    }
+  };
+
+  const toggleAudioStream = async () => {
+    if (myStream) {
+      myStream.getAudioTracks().forEach((track) => {
+        track.enabled = !isAudioStreamEnable;
+      });
+
+      setAudioStreamEnable(!isAudioStreamEnable);
     }
   };
 
@@ -163,6 +174,7 @@ const RoomPage = () => {
                   height="500px"
                   width="700px"
                   url={myStream}
+                  muted
                 />
               </>
             )}{" "}
@@ -184,7 +196,19 @@ const RoomPage = () => {
       {myStream && (
         <div className="calling-operation">
           <div className="operate-items">
-            <FaMicrophone color="white" size="25px" />
+            {isAudioStreamEnable ? (
+              <FaMicrophone
+                color="white"
+                size="25px"
+                onClick={toggleAudioStream}
+              />
+            ) : (
+              <FaMicrophoneSlash
+                color="white"
+                size="25px"
+                onClick={toggleAudioStream}
+              />
+            )}
           </div>
           <div className="operate-items" onClick={toggleLocalStream}>
             {isLocalStreamEnabled ? (
