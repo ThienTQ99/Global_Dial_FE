@@ -1,23 +1,28 @@
+.body-room{
+    background: linear-gradient(to bottom right, #ffabf5, #ADBFFF);
+    height: fit-content;
+    position: relative;
+    min-height: 100vh;
+}
+
 .video-stream {
     display: flex;
-    margin: 5% 0 2% 2%;
+    margin: 3% 0 3% 2%;
 }
 
 .my-stream {
-    flex:  50%;
-    margin: 0;
+    
 }
 
 .remote-stream {
-    flex: 50%;
+    padding-left: 1%;
 }
 
 .calling-operation{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 3%;
-
+    padding-bottom: 3%;
 }
 
 .operate-items{

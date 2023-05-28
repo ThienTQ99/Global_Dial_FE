@@ -51,8 +51,14 @@ const RoomPage = () => {
   );
 
   const sendStreams = useCallback(() => {
-    for (const track of myStream.getTracks()) {
-      peer.peer.addTrack(track, myStream);
+    if (myStream) {
+      const tracks = myStream.getTracks();
+      tracks.forEach((track) => {
+        const sender = peer.peer.getSenders().find((s) => s.track === track);
+        if (!sender) {
+          peer.peer.addTrack(track, myStream);
+        }
+      });
     }
   }, [myStream]);
 
@@ -156,78 +162,72 @@ const RoomPage = () => {
 
   return (
     <>
-      <div>
-        {!myStream && <div onClick={handleDisconnect}>Disconnect</div>}
-        <h2 style={{ marginTop: "100px" }}>
-          {remoteSocketId ? "Connected" : "No one in room"}
-        </h2>
-        {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
-        {remoteSocketId && !myStream && (
-          <Button onClick={handleCallUser}>CALL</Button>
+      <div className="body-room">
+        <div className="">
+          {!myStream && <div onClick={handleDisconnect}>Disconnect</div>}
+          <h2 style={{ paddingTop: "50px" }}>
+            {remoteSocketId ? "Connected" : "No one in room"}
+          </h2>
+          {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
+          {remoteSocketId && !myStream && (
+            <Button onClick={handleCallUser}>CALL</Button>
+          )}
+          <div className="video-stream">
+            <div className="my-stream">
+              {myStream && (
+                <>
+                  <ReactPlayer
+                    playing
+                    height="500px"
+                    width="700px"
+                    url={myStream}
+                    muted
+                  />
+                </>
+              )}{" "}
+            </div>
+            <div className="remote-stream">
+              {remoteStream && (
+                <>
+                  <ReactPlayer
+                    playing
+                    height="500px"
+                    width="700px"
+                    url={remoteStream}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+        {myStream && (
+          <div className="calling-operation">
+            <div className="operate-items" onClick={toggleAudioStream}>
+              {isAudioStreamEnable ? (
+                <FaMicrophone color="white" size="25px" />
+              ) : (
+                <FaMicrophoneSlash color="white" size="25px" />
+              )}
+            </div>
+            <div className="operate-items" onClick={toggleLocalStream}>
+              {isLocalStreamEnabled ? (
+                <AiTwotoneVideoCamera color="white" size="25px" />
+              ) : (
+                <BsFillCameraVideoOffFill color="white" size="25px" />
+              )}
+            </div>
+            <div
+              className="operate-items"
+              style={{
+                background: "#ea4335",
+              }}
+              onClick={handleDisconnect}
+            >
+              <AiFillPhone color="white" size="25px" />
+            </div>
+          </div>
         )}
-        <div className="video-stream">
-          <div className="my-stream">
-            {myStream && (
-              <>
-                <ReactPlayer
-                  playing
-                  height="500px"
-                  width="700px"
-                  url={myStream}
-                  muted
-                />
-              </>
-            )}{" "}
-          </div>
-          <div className="remote-stream">
-            {remoteStream && (
-              <>
-                <ReactPlayer
-                  playing
-                  height="500px"
-                  width="700px"
-                  url={remoteStream}
-                />
-              </>
-            )}
-          </div>
-        </div>
       </div>
-      {myStream && (
-        <div className="calling-operation">
-          <div className="operate-items">
-            {isAudioStreamEnable ? (
-              <FaMicrophone
-                color="white"
-                size="25px"
-                onClick={toggleAudioStream}
-              />
-            ) : (
-              <FaMicrophoneSlash
-                color="white"
-                size="25px"
-                onClick={toggleAudioStream}
-              />
-            )}
-          </div>
-          <div className="operate-items" onClick={toggleLocalStream}>
-            {isLocalStreamEnabled ? (
-              <AiTwotoneVideoCamera color="white" size="25px" />
-            ) : (
-              <BsFillCameraVideoOffFill color="white" size="25px" />
-            )}
-          </div>
-          <div
-            className="operate-items"
-            style={{
-              background: "#ea4335",
-            }}
-            onClick={handleDisconnect}
-          >
-            <AiFillPhone color="white" size="25px" />
-          </div>
-        </div>
-      )}
     </>
   );
 };
