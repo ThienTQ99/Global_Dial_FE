@@ -219,7 +219,7 @@ const RoomPage = () => {
         >
           <AiFillPhone color="white" size="25px" />
         </div>
-      
+       
       </div>
       )}
       </>
