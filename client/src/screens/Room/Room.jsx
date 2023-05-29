@@ -5,7 +5,7 @@ import peer from "../../service/peer";
 import { Button } from "antd";
 import { useSocket } from "../../context/SocketProvider";
 import { useNavigate } from "react-router-dom";
-import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import { AiTwotoneVideoCamera, AiFillPhone } from "react-icons/ai";
 import { BsFillCameraVideoOffFill } from "react-icons/bs";
 
@@ -15,9 +15,22 @@ const RoomPage = () => {
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
   const [isLocalStreamEnabled, setLocalStreamEnabled] = useState(true);
-  const [isRemoteStreamEnabled, setRemoteStreamEnabled] = useState(true);
+  const [isAudioStreamEnable, setAudioStreamEnable] = useState(true);
+  
 
   const navigate = useNavigate();
+  
+
+  const init=async ()=>{
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    });
+    setMyStream(stream);
+  }
+  useEffect(()=>{
+    init()
+  },[])
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
@@ -45,13 +58,26 @@ const RoomPage = () => {
       console.log(`Incoming Call`, from, offer);
       const ans = await peer.getAnswer(offer);
       socket.emit("call:accepted", { to: from, ans });
+      
     },
     [socket]
   );
 
+  
+
+  
+ 
+
   const sendStreams = useCallback(() => {
-    for (const track of myStream.getTracks()) {
-      peer.peer.addTrack(track, myStream);
+    if (myStream) {
+      const tracks = myStream.getTracks();
+      tracks.forEach((track) => {
+        const sender = peer.peer.getSenders().find((s) => s.track === track);
+        if (!sender) {
+          peer.peer.addTrack(track, myStream);
+          
+        }
+      });
     }
   }, [myStream]);
 
@@ -86,37 +112,43 @@ const RoomPage = () => {
 
   const handleNegoNeedFinal = useCallback(async ({ ans }) => {
     await peer.setLocalDescription(ans);
+    sendStreams()
   }, []);
 
   const handleDisconnect = () => {
-    socket.off();
+    socket.disconnect();
     navigate("/");
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      sendStreams()
+    }, 200);
+  }, [remoteSocketId]);
 
   const toggleLocalStream = async () => {
     if (myStream) {
       myStream.getVideoTracks().forEach((track) => {
         track.enabled = !isLocalStreamEnabled;
-
-        setLocalStreamEnabled(!isLocalStreamEnabled);
       });
+
+      setLocalStreamEnabled(!isLocalStreamEnabled);
     }
   };
 
-  const toggleRemoteStream = () => {
-    if (remoteStream) {
-      remoteStream.getVideoTracks().forEach((track) => {
-        track.enabled = !isRemoteStreamEnabled;
+  const toggleAudioStream = async () => {
+    if (myStream) {
+      myStream.getAudioTracks().forEach((track) => {
+        track.enabled = !isAudioStreamEnable;
       });
-      setRemoteStreamEnabled(!isRemoteStreamEnabled);
+
+      setAudioStreamEnable(!isAudioStreamEnable);
     }
   };
 
   useEffect(() => {
     peer.peer.addEventListener("track", async (ev) => {
-      const remoteStream = ev.streams;
-      console.log("GOT TRACKS!!");
-      setRemoteStream(remoteStream[0]);
+      setRemoteStream(ev.streams[0]);
     });
   }, []);
 
@@ -145,85 +177,95 @@ const RoomPage = () => {
 
   return (
     <>
-      <div>
-        {!myStream && <div onClick={handleDisconnect}>Disconnect</div>}
-        <h2 style={{ marginTop: "100px" }}>
-          {remoteSocketId ? "Connected" : "No one in room"}
-        </h2>
-        {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
-        {remoteSocketId && !myStream && (
-          <Button onClick={handleCallUser}>CALL</Button>
-        )}
-        <div className="video-stream">
-          <div className="my-stream">
-            {myStream && (
-              <>
-                <ReactPlayer
-                  playing
-                  height="500px"
-                  width="700px"
-                  url={myStream}
-                />
-              </>
-            )}{" "}
-          </div>
-          <div className="remote-stream">
-            {remoteStream && (
-              <>
-                <ReactPlayer
-                  playing
-                  height="500px"
-                  width="700px"
-                  url={remoteStream}
-                />
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-      {myStream && (
-        <div className="calling-operation">
-          <div className="operate-items">
-            <FaMicrophone color="white" size="25px" />
-          </div>
-          <div className="operate-items" onClick={toggleLocalStream}>
-            {isLocalStreamEnabled ? (
-              <AiTwotoneVideoCamera color="white" size="25px" />
-            ) : (
-              <BsFillCameraVideoOffFill color="white" size="25px" />
-            )}
-          </div>
-          <div
-            className="operate-items"
-            style={{
-              background: "#ea4335",
-            }}
-            onClick={handleDisconnect}
-          >
-            <AiFillPhone color="white" size="25px" />
-          </div>
-        
-        {/* <div className="operate-items" onClick={toggleLocalStream}>
-          {isLocalStreamEnabled ? (
-            <AiTwotoneVideoCamera color="white" size="25px" />
+      <div className="body-room">
+        <div className="">
+          {myStream ? (
+            <h2 style={{ paddingTop: "40px", fontSize: "30px" }}>
+              {remoteSocketId ? "Connected" : "No one in room, please wait!"}
+            </h2>
           ) : (
-            <BsFillCameraVideoOffFill color="white" size="25px" />
+            <h2 style={{ paddingTop: "15%", fontSize: "30px" }}>
+              {remoteSocketId ? "Connected" : "No one in room, please wait!"}
+            </h2>
           )}
-        </div> */}
-        <div
-          className="operate-items"
-          style={{
-            background: "#ea4335",
-          }}
-          onClick={handleDisconnect}
-        >
-          <AiFillPhone color="white" size="25px" />
+
+          {!myStream && (
+            <Button
+              type="primary"
+              shape="round"
+              onClick={handleDisconnect}
+              size="large"
+            >
+              Disconnect
+            </Button>
+          )}
+
+          {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
+          {remoteSocketId && (
+            <Button onClick={handleCallUser}>CALL</Button>
+          )}
+          <div className="video-stream">
+            <div className="my-stream">
+              {myStream && (
+                <>
+                  <ReactPlayer
+                    playing
+                    height="500px"
+                    width="700px"
+                    url={myStream}
+                    muted
+                  />
+                </>
+              )}{" "}
+            </div>
+            <div className="remote-stream">
+              {remoteStream && (
+                <>
+                {console.log(remoteStream)}
+                  <ReactPlayer
+                    playing
+                    height="500px"
+                    width="700px"
+                    url={remoteStream}
+                    onPlay={() => {
+                      console.log("no hope");
+                    }}
+                  />
+                </>
+              )}{" "}
+            </div>
+          </div>
         </div>
-       
+        {myStream && (
+          <div className="calling-operation">
+            <div className="operate-items" onClick={toggleAudioStream}>
+              {isAudioStreamEnable ? (
+                <FaMicrophone color="white" size="25px" />
+              ) : (
+                <FaMicrophoneSlash color="white" size="25px" />
+              )}
+            </div>
+            <div className="operate-items" onClick={toggleLocalStream}>
+              {isLocalStreamEnabled ? (
+                <AiTwotoneVideoCamera color="white" size="25px" />
+              ) : (
+                <BsFillCameraVideoOffFill color="white" size="25px" />
+              )}
+            </div>
+            <div
+              className="operate-items"
+              style={{
+                background: "#ea4335",
+              }}
+              onClick={handleDisconnect}
+            >
+              <AiFillPhone color="white" size="25px" />
+            </div>
+          </div>
+        )}
       </div>
-      )}
-      </>
-  )
+    </>
+  );
 };
 
 export default RoomPage;
