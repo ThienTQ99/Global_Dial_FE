@@ -15,7 +15,6 @@ const RoomPage = () => {
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
   const [isLocalStreamEnabled, setLocalStreamEnabled] = useState(true);
-  const [isRemoteStreamEnabled, setRemoteStreamEnabled] = useState(true);
   const [isAudioStreamEnable, setAudioStreamEnable] = useState(true);
 
   const navigate = useNavigate();
@@ -49,6 +48,8 @@ const RoomPage = () => {
     },
     [socket]
   );
+
+  console.log("remoteStream", remoteStream);
 
   const sendStreams = useCallback(() => {
     if (myStream) {
@@ -100,6 +101,10 @@ const RoomPage = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    console.log("remoteSocketId", remoteSocketId);
+  }, [remoteSocketId]);
+
   const toggleLocalStream = async () => {
     if (myStream) {
       myStream.getVideoTracks().forEach((track) => {
@@ -120,20 +125,9 @@ const RoomPage = () => {
     }
   };
 
-  const toggleRemoteStream = () => {
-    if (remoteStream) {
-      remoteStream.getVideoTracks().forEach((track) => {
-        track.enabled = !isRemoteStreamEnabled;
-      });
-      setRemoteStreamEnabled(!isRemoteStreamEnabled);
-    }
-  };
-
   useEffect(() => {
     peer.peer.addEventListener("track", async (ev) => {
-      const remoteStream = ev.streams;
-      console.log("GOT TRACKS!!");
-      setRemoteStream(remoteStream[0]);
+      setRemoteStream(ev.streams[0]);
     });
   }, []);
 
@@ -164,10 +158,27 @@ const RoomPage = () => {
     <>
       <div className="body-room">
         <div className="">
-          {!myStream && <div onClick={handleDisconnect}>Disconnect</div>}
-          <h2 style={{ paddingTop: "50px" }}>
-            {remoteSocketId ? "Connected" : "No one in room"}
-          </h2>
+          {myStream ? (
+            <h2 style={{ paddingTop: "40px", fontSize: "30px" }}>
+              {remoteSocketId ? "Connected" : "No one in room, please wait!"}
+            </h2>
+          ) : (
+            <h2 style={{ paddingTop: "15%", fontSize: "30px" }}>
+              {remoteSocketId ? "Connected" : "No one in room, please wait!"}
+            </h2>
+          )}
+
+          {!myStream && (
+            <Button
+              type="primary"
+              shape="round"
+              onClick={handleDisconnect}
+              size="large"
+            >
+              Disconnect
+            </Button>
+          )}
+
           {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
           {remoteSocketId && !myStream && (
             <Button onClick={handleCallUser}>CALL</Button>
@@ -194,9 +205,12 @@ const RoomPage = () => {
                     height="500px"
                     width="700px"
                     url={remoteStream}
+                    onPlay={() => {
+                      console.log("no hope");
+                    }}
                   />
                 </>
-              )}
+              )}{" "}
             </div>
           </div>
         </div>
