@@ -130,6 +130,7 @@ const RoomPage = () => {
     if (myStream) {
       myStream.getVideoTracks().forEach((track) => {
         track.enabled = !isLocalStreamEnabled;
+        console.log(track);
       });
 
       setLocalStreamEnabled(!isLocalStreamEnabled);
