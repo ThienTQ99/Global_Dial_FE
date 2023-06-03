@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import NavBar from "../../component/NavBar/NavBar";
 import Post from "../../component/Posting/Post";
 import "./style.css";
@@ -9,10 +11,15 @@ import User from "../../component/User/User";
 
 const Homepage = () => {
   const [activeButton, setActiveButton] = useState("Active");
+  const navigate = useNavigate();
 
   const handleOnChangeStatus = (status) => {
     setActiveButton(status);
     console.log(status);
+  };
+
+  const handlePostClick = (postId) => {
+    navigate(`/post/${postId}`);
   };
 
   return (
@@ -78,6 +85,8 @@ const Homepage = () => {
                   content={item.content}
                   image={item.image}
                   key={index}
+                  keyPost={index}
+                  onClick={() => handlePostClick(index)}
                 />
               );
             })}

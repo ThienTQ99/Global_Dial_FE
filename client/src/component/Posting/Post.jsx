@@ -2,10 +2,10 @@ import React from "react";
 import "./style.css";
 import { Image } from "antd";
 
-const Post = ({ author, timePosted, avatar, content, image }) => {
+const Post = ({ author, timePosted, avatar, content, image, onClick }) => {
   return (
     <>
-      <div className="post-header">
+      <div className="post-header" onClick={onClick}>
         <Image src={avatar} width="50px" className="post-header-avatar" />
         <div className="post-header-name">
           <p className="post-author">{author}</p>

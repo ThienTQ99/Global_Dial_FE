@@ -6,6 +6,7 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import LoginPage from "./screens/login/Login";
 import NavBar from "./component/NavBar/NavBar";
 import Homepage from "./screens/Homepage/Homepage";
+import CourseDetail from "./screens/courseDetail/CourseDetail";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<LobbyScreen />} exact />
           <Route path="/room/:roomId" element={<RoomPage />} />
           <Route path="/home" element={<Homepage />} />
+          <Route path="/post/:postId" element={<CourseDetail />} />
         </Route>
         <Route element={<LoginPage />} path="/login" />
         <Route element={<LoginPage />} />
