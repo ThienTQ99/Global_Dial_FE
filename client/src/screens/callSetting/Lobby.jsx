@@ -67,14 +67,15 @@ const LobbyScreen = () => {
   }, [socket, handleJoinRoom]);
 
   return (
-    <div className="main">
+    <div className="main ">
         <div className="selection">
           <LanguageSelector setLanguage={setLanguage} isCall={isCall}/>
           <TopicSelector setTopic={setTopic} isCall={isCall}/>
         </div>
-        <div className="call">
+        <div className="call ">
           <CallButton setIsCall={setIsCall} />
         </div>
+        
     </div>
   );
 };

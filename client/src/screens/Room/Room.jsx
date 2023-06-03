@@ -16,21 +16,23 @@ const RoomPage = () => {
   const [remoteStream, setRemoteStream] = useState();
   const [isLocalStreamEnabled, setLocalStreamEnabled] = useState(true);
   const [isAudioStreamEnable, setAudioStreamEnable] = useState(true);
-  
 
   const navigate = useNavigate();
-  
 
-  const init=async ()=>{
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true,
-    });
-    setMyStream(stream);
-  }
-  useEffect(()=>{
-    init()
-  },[])
+  const init = async () => {
+    if (!myStream) {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      });
+      setMyStream(stream);
+    }
+  };
+
+  useEffect(() => {
+    console.log("init");
+    init();
+  }, []);
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
@@ -58,24 +60,17 @@ const RoomPage = () => {
       console.log(`Incoming Call`, from, offer);
       const ans = await peer.getAnswer(offer);
       socket.emit("call:accepted", { to: from, ans });
-      
     },
     [socket]
   );
 
-  
-
-  
- 
-
   const sendStreams = useCallback(() => {
-    if (myStream) {
+    if (myStream && isLocalStreamEnabled) {
       const tracks = myStream.getTracks();
       tracks.forEach((track) => {
         const sender = peer.peer.getSenders().find((s) => s.track === track);
         if (!sender) {
           peer.peer.addTrack(track, myStream);
-          
         }
       });
     }
@@ -112,7 +107,7 @@ const RoomPage = () => {
 
   const handleNegoNeedFinal = useCallback(async ({ ans }) => {
     await peer.setLocalDescription(ans);
-    sendStreams()
+    sendStreams();
   }, []);
 
   const handleDisconnect = () => {
@@ -120,17 +115,10 @@ const RoomPage = () => {
     navigate("/");
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      sendStreams()
-    }, 200);
-  }, [remoteSocketId]);
-
   const toggleLocalStream = async () => {
     if (myStream) {
       myStream.getVideoTracks().forEach((track) => {
         track.enabled = !isLocalStreamEnabled;
-        console.log(track);
       });
 
       setLocalStreamEnabled(!isLocalStreamEnabled);
@@ -140,7 +128,7 @@ const RoomPage = () => {
   const toggleAudioStream = async () => {
     if (myStream) {
       myStream.getAudioTracks().forEach((track) => {
-        track.enabled = !isAudioStreamEnable;
+        track.enabled = isAudioStreamEnable;
       });
 
       setAudioStreamEnable(!isAudioStreamEnable);
@@ -202,9 +190,7 @@ const RoomPage = () => {
           )}
 
           {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
-          {remoteSocketId && (
-            <Button onClick={handleCallUser}>CALL</Button>
-          )}
+          {remoteSocketId && <Button onClick={handleCallUser}>CALL</Button>}
           <div className="video-stream">
             <div className="my-stream">
               {myStream && (
@@ -222,7 +208,7 @@ const RoomPage = () => {
             <div className="remote-stream">
               {remoteStream && (
                 <>
-                {console.log(remoteStream)}
+                  {console.log(remoteStream)}
                   <ReactPlayer
                     playing
                     height="500px"
