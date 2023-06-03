@@ -16,8 +16,21 @@ const RoomPage = () => {
   const [remoteStream, setRemoteStream] = useState();
   const [isLocalStreamEnabled, setLocalStreamEnabled] = useState(true);
   const [isAudioStreamEnable, setAudioStreamEnable] = useState(true);
+  
 
   const navigate = useNavigate();
+  
+
+  const init=async ()=>{
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    });
+    setMyStream(stream);
+  }
+  useEffect(()=>{
+    init()
+  },[])
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
@@ -45,11 +58,15 @@ const RoomPage = () => {
       console.log(`Incoming Call`, from, offer);
       const ans = await peer.getAnswer(offer);
       socket.emit("call:accepted", { to: from, ans });
+      
     },
     [socket]
   );
 
-  console.log("remoteStream", remoteStream);
+  
+
+  
+ 
 
   const sendStreams = useCallback(() => {
     if (myStream) {
@@ -58,6 +75,7 @@ const RoomPage = () => {
         const sender = peer.peer.getSenders().find((s) => s.track === track);
         if (!sender) {
           peer.peer.addTrack(track, myStream);
+          
         }
       });
     }
@@ -94,6 +112,7 @@ const RoomPage = () => {
 
   const handleNegoNeedFinal = useCallback(async ({ ans }) => {
     await peer.setLocalDescription(ans);
+    sendStreams()
   }, []);
 
   const handleDisconnect = () => {
@@ -102,7 +121,9 @@ const RoomPage = () => {
   };
 
   useEffect(() => {
-    console.log("remoteSocketId", remoteSocketId);
+    setTimeout(() => {
+      sendStreams()
+    }, 200);
   }, [remoteSocketId]);
 
   const toggleLocalStream = async () => {
@@ -181,7 +202,7 @@ const RoomPage = () => {
           )}
 
           {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
-          {remoteSocketId && !myStream && (
+          {remoteSocketId && (
             <Button onClick={handleCallUser}>CALL</Button>
           )}
           <div className="video-stream">
@@ -201,6 +222,7 @@ const RoomPage = () => {
             <div className="remote-stream">
               {remoteStream && (
                 <>
+                {console.log(remoteStream)}
                   <ReactPlayer
                     playing
                     height="500px"

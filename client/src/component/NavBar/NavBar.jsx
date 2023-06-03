@@ -39,7 +39,7 @@ const NavBar = () => {
       <p className="bar-part" onClick={onClickHomepage}>
         Home
       </p>
-      <p className="bar-part">Community</p>
+      <p className="bar-part" onClick={()=>navigate('/')}>Call</p>
       <p className="bar-part">Course</p>
       <div className="search-place">
         <SearchComponent />
