@@ -97,7 +97,7 @@ const RoomPage = () => {
   }, []);
 
   const handleDisconnect = () => {
-    socket.off();
+    socket.disconnect();
     navigate("/");
   };
 
