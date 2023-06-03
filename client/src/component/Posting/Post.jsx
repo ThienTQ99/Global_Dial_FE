@@ -5,7 +5,7 @@ import { Image } from "antd";
 const Post = ({ author, timePosted, avatar, content, image }) => {
   return (
     <>
-      <div className="post-header">
+      <div className="post-header" onClick={()=>console.log("click")}>
         <Image src={avatar} width="50px" className="post-header-avatar" />
         <div className="post-header-name">
           <p className="post-author">{author}</p>
