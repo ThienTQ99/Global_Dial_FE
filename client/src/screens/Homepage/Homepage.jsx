@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../../component/NavBar/NavBar";
 import Post from "../../component/Posting/Post";
 import "./style.css";
+import "../../index.css";
 import { Divider, Image, Carousel, Button } from "antd";
 import { englishCenters } from "../../data/post";
 import banner from "../../assests/banner.png";
@@ -19,7 +20,7 @@ const Homepage = () => {
   };
 
   const handlePostClick = (postId) => {
-    navigate(`/post/${postId}`);
+    navigate(`/post/${postId}`, { state: { post: englishCenters[postId] } });
   };
 
   return (

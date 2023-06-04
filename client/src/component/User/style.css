@@ -7,7 +7,6 @@
     display: flex;
     width: 100%;
     position: relative;
-    z-index: -1;
 }
 
 .user-avatar{
@@ -19,7 +18,9 @@
     margin-left: 40px;
     font-size: medium;
     text-align: left;
+    padding-top: 5%;
 }
+
 
 
 

@@ -8,7 +8,7 @@ const User = ({ author, avatar, time }) => {
       <div className="user-users">
         <Image src={avatar} width="50px" className="user-avatar" />
         <div className="user-name">
-          <p className="post-author">{author}</p>
+          <p className="post-author pb-2">{author}</p>
           <p className="post-time">{time}</p>
         </div>
       </div>
