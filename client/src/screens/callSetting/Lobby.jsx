@@ -1,13 +1,18 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../context/SocketProvider";
-import UK from "../../image/UK";
+
 import './style.css'
 import LanguageSelector from "../../component/languageSelect/LanguageSelector";
 import TopicSelector from "../../component/topicSelect/TopicSelector";
 import CallButton from "../../component/callButton/CallButton";
+import { useDispatch, useSelector } from "react-redux";
+import { increment } from "./lobbySlice";
 
 const LobbyScreen = () => {
+
+  const count = useSelector((state) => state.lobby.value)
+  const dispatch = useDispatch()
 
   const email = localStorage.getItem("email")
  
@@ -39,6 +44,10 @@ const LobbyScreen = () => {
     },
     [email, topic, socket]
   );
+
+  const handlePlus = () =>{
+    dispatch(increment())
+  }
 
   
 
@@ -74,6 +83,8 @@ const LobbyScreen = () => {
         </div>
         <div className="call ">
           <CallButton setIsCall={setIsCall} />
+          <div>{count}</div>
+          <div onClick={handlePlus}>+</div>
         </div>
         
     </div>
