@@ -8,6 +8,7 @@ import TopicSelector from "../../component/topicSelect/TopicSelector";
 import CallButton from "../../component/callButton/CallButton";
 import { useDispatch, useSelector } from "react-redux";
 import { increment } from "./lobbySlice";
+import { useGetLobbyDataQuery } from "../../service/lobbySevice";
 
 const LobbyScreen = () => {
 
@@ -24,7 +25,8 @@ const LobbyScreen = () => {
   const socket = useSocket();
   const navigate = useNavigate();
 
-  
+  const getData = useGetLobbyDataQuery()
+  console.log(getData)
   
   useEffect(()=>{
    console.log(socket);
@@ -83,8 +85,7 @@ const LobbyScreen = () => {
         </div>
         <div className="call ">
           <CallButton setIsCall={setIsCall} />
-          <div>{count}</div>
-          <div onClick={handlePlus}>+</div>
+         
         </div>
         
     </div>
