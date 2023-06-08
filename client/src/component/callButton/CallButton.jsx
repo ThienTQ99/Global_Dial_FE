@@ -1,13 +1,13 @@
 import { useState } from "react";
 import "./style.css";
 
-const CallButton = ({setIsCall}) => {
+const CallButton = ({ setIsCall }) => {
   const [isCalling, setIsCalling] = useState(false);
 
   return (
     <>
       <div
-        className="mainButton"
+        className="mainButton items-center justify-center"
         onClick={() => {
           setIsCalling(true);
           setIsCall(true);
@@ -45,6 +45,7 @@ const CallButton = ({setIsCall}) => {
               display: "flex",
               marginBottom: "15px",
             }}
+            className="pl-7"
           >
             {" "}
             Calling...

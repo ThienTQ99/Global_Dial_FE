@@ -1,12 +1,13 @@
 .main{
-    display: flex;
     flex-direction: row;
-    width: 100%;
-    height: calc(100vh - 65px);
     padding: 0 5px;
     box-sizing: border-box;
-
+    width: 45%;
+   
+    height: 100vh;
+    background-color: #1677ff;
 }
+
 
 .selection{
     width: 70%;

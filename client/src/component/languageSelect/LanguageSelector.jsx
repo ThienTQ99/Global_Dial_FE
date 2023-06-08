@@ -1,41 +1,37 @@
-import { Divider, Row, Col } from "antd";
+import { Divider, Row, Col, Select } from "antd";
 import "./style.css";
-import { language } from "../../data/CallSetting";
+import { languages } from "../../data/CallSetting";
 import { useState } from "react";
-import UK from "../../image/UK";
 import { Fragment } from "react";
 
-const LanguageSelector = ({setLanguage, isCall}) => {
+const LanguageSelector = ({ setLanguage, isCall }) => {
   const [selected, setSelected] = useState({
-    name: "English",
-    flag: <UK />,
+    _id: "6471e12fcacfcb8da29df245",
+    codeName: "ja",
+    name: "Japanese",
+    isPremium: false,
   });
 
-  
-  const handleChoose=(name)=>{
-    
-    if(!isCall){
-
-      setLanguage(name)
-      setSelected(language.find((o)=>
-          o.name===name
-      ))
+  const handleChoose = (prop) => {
+    if (!isCall) {
+      setLanguage(prop);
+      setSelected(languages.find((o) => o._id === prop._id));
     }
-  }
+  };
   const Tag = ({ prop }) => {
     return (
       <>
         {prop.name === selected.name ? (
           <Col className="tagWrap" span={12}>
             <div className="tag selected">
-              {prop.flag}
+              {/* {prop.flag} */}
               <p className="langName">{prop.name}</p>
             </div>
           </Col>
         ) : (
           <Col className="tagWrap" span={12}>
-            <div className="tag " onClick={()=>handleChoose(prop.name)}>
-              {prop.flag}
+            <div className="tag " onClick={() => handleChoose(prop)}>
+              {/* {prop.flag} */}
               <p className="langName">{prop.name}</p>
             </div>
           </Col>
@@ -50,15 +46,25 @@ const LanguageSelector = ({setLanguage, isCall}) => {
         {prop.name === selected.name ? (
           <Col className="tagsWrap" span={24}>
             <div className="tags selected">
-              <img src={prop.url} />
-              <p style={{marginLeft:'50px', fontSize:'20px'}} className="langName">{prop.name}</p>
+              {/* <img src={prop.url} /> */}
+              <p
+                style={{ marginLeft: "50px", fontSize: "20px" }}
+                className="langName"
+              >
+                {prop.name}
+              </p>
             </div>
           </Col>
         ) : (
           <Col className="tagsWrap" span={24}>
-            <div className="tags " onClick={()=>handleChoose(prop.name)}>
-              <img src={prop.url} />
-              <p style={{marginLeft:'50px', fontSize:'20px'}} className="langName">{prop.name}</p>
+            <div className="tags " onClick={() => handleChoose(prop)}>
+              {/* <img src={prop.url} /> */}
+              <p
+                style={{ marginLeft: "50px", fontSize: "20px" }}
+                className="langName"
+              >
+                {prop.name}
+              </p>
             </div>
           </Col>
         )}
@@ -67,23 +73,34 @@ const LanguageSelector = ({setLanguage, isCall}) => {
   };
   return (
     <div className="containerL">
-      <div className="top">
-        <h1>Language:</h1>
+      <div className="top mt-6 mb-6">
+        <h1 className="pr-4 font-semibold">Language:</h1>
 
-        <Tag prop={selected} />
+        {/* <Tag prop={selected} /> */}
+        <Select
+          
+          defaultValue={languages[0]._id}
+          options={languages.map((item) => {
+            return {
+              value: item._id,
+              label: item.name,
+            };
+          })}
+          size="large"
+          style={{ width: "150px" }}
+          onChange={handleChoose}
+        />
       </div>
-      <Divider />
       <div className="bottom">
         <Row justify="right">
-          {language.map((item, index) => {
+          {/* {languages.map((item) => {
             return (
-              <Fragment key={index}>
-                <Tags key={index} prop={item} />
+              <Fragment key={item._id}>
+                <Tags key={item._id} prop={item} />
               </Fragment>
             );
-          })}
+          })} */}
         </Row>
-        
       </div>
     </div>
   );
