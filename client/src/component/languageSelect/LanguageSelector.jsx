@@ -78,8 +78,12 @@ const LanguageSelector = ({ setLanguage, isCall }) => {
 
         {/* <Tag prop={selected} /> */}
         <Select
-          
+           showSearch
+           optionFilterProp="children"
           defaultValue={languages[0]._id}
+          filterOption={(input, option) =>
+            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+          }
           options={languages.map((item) => {
             return {
               value: item._id,
