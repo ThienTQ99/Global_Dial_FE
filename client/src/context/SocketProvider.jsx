@@ -1,6 +1,8 @@
 import React, { createContext, useMemo, useContext } from "react";
 import { io } from "socket.io-client";
 
+const TOKEN = localStorage.getItem("accessToken")
+
 
 const SocketContext = createContext(null);
 
@@ -11,7 +13,7 @@ export const useSocket = () => {
 
 export const SocketProvider = (props) => {
  
-  const socket = useMemo(() => io(`${process.env.REACT_APP_URL}`), []);
+  const socket = useMemo(() => io(`${process.env.REACT_APP_URL}`,{auth: {token : TOKEN } }), []);
 
   return (
     <SocketContext.Provider value={socket}>
