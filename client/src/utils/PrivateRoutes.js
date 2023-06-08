@@ -8,7 +8,7 @@ const PrivateRoutes = () => {
         setAuth({ ...auth, email: localStorage.getItem('email') })
     }, [])
 
-    console.log(auth)
+    
 
     return (
         <div>
