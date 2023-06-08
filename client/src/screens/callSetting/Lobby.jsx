@@ -29,6 +29,11 @@ const LobbyScreen = () => {
   const getData = useGetLobbyDataQuery();
   console.log(getData);
 
+  useEffect(()=>{
+    socket.connect();
+    console.log(socket)
+  },[socket])
+
   useEffect(() => {
     
     if (isCall) {
@@ -80,7 +85,7 @@ const LobbyScreen = () => {
 
   return (
     <div className="w-[100%] flex justify-center">
-    <div className="main">
+    <div className="main sm:w-[100%] lg:w-[45%] ">
       <LanguageSelector setLanguage={handleSetLanguage} isCall={isCall} />
       <div className="mt-2">
         <TopicSelector setTopic={handleSetTopic} isCall={isCall} />

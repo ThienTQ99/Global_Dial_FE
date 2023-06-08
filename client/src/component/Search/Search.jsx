@@ -7,7 +7,7 @@ const onSearch = (value) => console.log(value);
 
 const SearchComponent = () => {
   return (
-    <Search placeholder="Search here..." onSearch={onSearch} enterButton />
+    <Search className=" hidden lg:block" placeholder="Search here..." onSearch={onSearch} enterButton />
   );
 };
 

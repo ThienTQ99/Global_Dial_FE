@@ -40,7 +40,7 @@ const NavBar = () => {
         Home
       </p>
       <p className="bar-part" onClick={()=>navigate('/')}>Call</p>
-      <p className="bar-part">Course</p>
+      {/* <p className="bar-part">Course</p> */}
       <div className="search-place">
         <SearchComponent />
       </div>

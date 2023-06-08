@@ -2,9 +2,10 @@
     flex-direction: row;
     padding: 0 5px;
     box-sizing: border-box;
-    width: 45%;
-   
-    height: 100vh;
+    
+    
+    height: 100%;
+    padding-bottom: 20px;
     background-color: #1677ff;
 }
 
