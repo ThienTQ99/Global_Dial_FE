@@ -1,13 +1,9 @@
 .mainButton{
     display: flex;
     flex-direction: row;
-    margin-top: 10%;
     align-items: center;
     height: max-content;
     cursor: pointer;
-    margin-left: 25%;
-
-   
 }
 
 
@@ -91,7 +87,7 @@
     display: flex;
     width: 70px;
     height: 30px;
-    margin-left: 43%;
+    margin-left: 45%;
     font-size: 15px;
     justify-content: center;
     align-items: center;

@@ -1,40 +1,36 @@
 import { Divider, Row, Col } from "antd";
 import "./style.css";
-import {  topic } from "../../data/CallSetting";
+import { topics } from "../../data/CallSetting";
 import { useState } from "react";
 import { Fragment } from "react";
 
+const TopicSelector = ({ setTopic, isCall }) => {
+  const [selected, setSelected] = useState({
+    _id: "6472c4e3cacfcb8da2fc4ad9",
+    codeName: "literature",
+    name: "Literature",
+    isPremium: true,
+  });
 
-const TopicSelector = ({setTopic,isCall}) => {
-  const [selected, setSelected] = useState("Anime");
-
-  
-
-  const handleChoose=(name)=>{
-    
-    if(!isCall){
-
-      setTopic(name)
-      setSelected(topic.find((o)=>
-          o===name
-      ))
+  const handleChoose = (id) => {
+    if (!isCall) {
+      setTopic(id);
+      setSelected(topics.find((o) => o._id === id));
     }
-  }
+  };
   const Tag = ({ prop }) => {
     return (
       <>
         {prop === selected ? (
-          <div className="tagWrapT" >
+          <div className="tagWrapT">
             <div className="tagT selectedT">
-              
-              <p className="langName">{prop}</p>
+              <p className="langName">{prop.name}</p>
             </div>
           </div>
         ) : (
-          <div className="tagWrapT" >
-            <div className="tagT " onClick={()=>handleChoose(prop)}>
-             
-              <p className="langName">{prop}</p>
+          <div className="tagWrapT">
+            <div className="tagT " onClick={() => handleChoose(prop._id)}>
+              <p className="langName">{prop.name}</p>
             </div>
           </div>
         )}
@@ -43,18 +39,18 @@ const TopicSelector = ({setTopic,isCall}) => {
   };
   return (
     <div className="container">
-      <div className="top">
-        <h1 style={{marginRight:'15px'}}>Topic:</h1>
+      {/* <div className="top">
+        <h1 style={{ marginRight: "15px" }}>Topic:</h1>
 
         <Tag prop={selected} />
-      </div>
-      <Divider />
+      </div> */}
+      {/* <Divider /> */}
       <div className="bottom">
-        <Row style={{padding:'0px 30px'}} justify="center">
-          {topic.map((item, index) => {
+        <Row style={{ padding: "0px 30px" }} justify="center">
+          {topics.map((item) => {
             return (
-              <Fragment key={index}>
-                <Tag key={index} prop={item} />
+              <Fragment key={item._id}>
+                <Tag key={item._id} prop={item} />
               </Fragment>
             );
           })}
