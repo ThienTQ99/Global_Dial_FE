@@ -2,12 +2,19 @@ import React, { useEffect, useCallback, useState } from "react";
 import ReactPlayer from "react-player";
 import "./style.css";
 import peer from "../../service/peer";
-import { Button } from "antd";
+import { Button, FloatButton } from "antd";
 import { useSocket } from "../../context/SocketProvider";
 import { useNavigate } from "react-router-dom";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
-import { AiTwotoneVideoCamera, AiFillPhone } from "react-icons/ai";
+import {
+  AiTwotoneVideoCamera,
+  AiFillPhone,
+  AiFillForward,
+  AiOutlineVideoCameraAdd,
+} from "react-icons/ai";
 import { BsFillCameraVideoOffFill } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import VideoPlayer from "./VideoPlayer";
 
 const RoomPage = () => {
   const socket = useSocket();
@@ -16,7 +23,8 @@ const RoomPage = () => {
   const [remoteStream, setRemoteStream] = useState();
   const [isLocalStreamEnabled, setLocalStreamEnabled] = useState(true);
   const [isAudioStreamEnable, setAudioStreamEnable] = useState(true);
-
+  const language = useSelector((state) => state.lobby.language);
+  const topic = useSelector((state) => state.lobby.topic);
   const navigate = useNavigate();
 
   const init = async () => {
@@ -116,22 +124,22 @@ const RoomPage = () => {
   };
 
   const toggleLocalStream = async () => {
+    setLocalStreamEnabled(!isLocalStreamEnabled);
+
     if (myStream) {
       myStream.getVideoTracks().forEach((track) => {
         track.enabled = !isLocalStreamEnabled;
       });
-
-      setLocalStreamEnabled(!isLocalStreamEnabled);
     }
   };
 
   const toggleAudioStream = async () => {
+    setAudioStreamEnable((prevIsAudioStreamEnable) => !prevIsAudioStreamEnable);
+
     if (myStream) {
       myStream.getAudioTracks().forEach((track) => {
-        track.enabled = isAudioStreamEnable;
+        track.enabled = !isAudioStreamEnable;
       });
-
-      setAudioStreamEnable(!isAudioStreamEnable);
     }
   };
 
@@ -169,12 +177,16 @@ const RoomPage = () => {
       <div className="body-room">
         <div className="">
           {myStream ? (
-            <h2 style={{ paddingTop: "40px", fontSize: "30px" }}>
-              {remoteSocketId ? "Connected" : "No one in room, please wait!"}
+            <h2 className="pt-4 text-4xl font-extrabold ml-[5%] text-[#006B7D]">
+              {remoteSocketId
+                ? topic.name + " by " + language.name
+                : "Waiting!!!"}
             </h2>
           ) : (
-            <h2 style={{ paddingTop: "15%", fontSize: "30px" }}>
-              {remoteSocketId ? "Connected" : "No one in room, please wait!"}
+            <h2 className="pt-4 text-4xl font-extrabold ml-[5%] text-[#006B7D] ">
+              {remoteSocketId
+                ? topic.name + " by " + language.name
+                : "Waiting!!!"}
             </h2>
           )}
 
@@ -189,35 +201,34 @@ const RoomPage = () => {
             </Button>
           )}
 
-          {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
-          {remoteSocketId && <Button onClick={handleCallUser}>CALL</Button>}
+          {myStream && (
+            <FloatButton
+              tooltip={"Send Stream"}
+              style={{ bottom: "50%", right: "96%" }}
+              onClick={sendStreams}
+              icon={<AiFillForward />}
+            />
+          )}
+          {remoteSocketId && (
+            <FloatButton
+              tooltip={"Call"}
+              style={{ bottom: "40%", right: "96%" }}
+              onClick={handleCallUser}
+              icon={<AiOutlineVideoCameraAdd />}
+            />
+          )}
           <div className="video-stream">
             <div className="my-stream">
               {myStream && (
                 <>
-                  <ReactPlayer
-                    playing
-                    height="500px"
-                    width="700px"
-                    url={myStream}
-                    muted
-                  />
+                  <VideoPlayer url={myStream} muted={true} />
                 </>
               )}{" "}
             </div>
             <div className="remote-stream">
               {remoteStream && (
                 <>
-                  {console.log(remoteStream)}
-                  <ReactPlayer
-                    playing
-                    height="500px"
-                    width="700px"
-                    url={remoteStream}
-                    onPlay={() => {
-                      console.log("no hope");
-                    }}
-                  />
+                  <VideoPlayer url={remoteStream} muted={false} />
                 </>
               )}{" "}
             </div>
@@ -227,16 +238,16 @@ const RoomPage = () => {
           <div className="calling-operation">
             <div className="operate-items" onClick={toggleAudioStream}>
               {isAudioStreamEnable ? (
-                <FaMicrophone color="white" size="25px" />
+                <FaMicrophone color="white" size="20px" />
               ) : (
-                <FaMicrophoneSlash color="white" size="25px" />
+                <FaMicrophoneSlash color="white" size="20px" />
               )}
             </div>
             <div className="operate-items" onClick={toggleLocalStream}>
               {isLocalStreamEnabled ? (
-                <AiTwotoneVideoCamera color="white" size="25px" />
+                <AiTwotoneVideoCamera color="white" size="20px" />
               ) : (
-                <BsFillCameraVideoOffFill color="white" size="25px" />
+                <BsFillCameraVideoOffFill color="white" size="20px" />
               )}
             </div>
             <div
@@ -246,7 +257,7 @@ const RoomPage = () => {
               }}
               onClick={handleDisconnect}
             >
-              <AiFillPhone color="white" size="25px" />
+              <AiFillPhone color="white" size="20px" />
             </div>
           </div>
         )}
