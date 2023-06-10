@@ -39,8 +39,16 @@ const NavBar = () => {
       <p className="bar-part" onClick={onClickHomepage}>
         Home
       </p>
-      <p className="bar-part" onClick={()=>navigate('/')}>Call</p>
-      {/* <p className="bar-part">Course</p> */}
+      <p className="bar-part" onClick={() => navigate("/")}>
+        Call
+      </p>
+      <p className="bar-part" onClick={() => navigate("/call/tutor")}>
+        Call tutor
+      </p>
+
+      <p className="bar-part" onClick={() => navigate("/chat")}>
+        Chat
+      </p>
       <div className="search-place">
         <SearchComponent />
       </div>
