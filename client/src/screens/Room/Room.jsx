@@ -175,15 +175,15 @@ const RoomPage = () => {
   return (
     <>
       <div className="body-room">
-        <div className="">
+        <div className="max-lg:text-center ml-0">
           {myStream ? (
-            <h2 className="pt-4 text-4xl font-extrabold ml-[5%] text-[#006B7D]">
+            <h2 className="pt-4 text-4xl font-extrabold  text-[#006B7D]">
               {remoteSocketId
                 ? topic.name + " by " + language.name
                 : "Waiting!!!"}
             </h2>
           ) : (
-            <h2 className="pt-4 text-4xl font-extrabold ml-[5%] text-[#006B7D] ">
+            <h2 className="pt-4 text-4xl font-extrabold text-[#006B7D] ">
               {remoteSocketId
                 ? topic.name + " by " + language.name
                 : "Waiting!!!"}
@@ -204,7 +204,7 @@ const RoomPage = () => {
           {myStream && (
             <FloatButton
               tooltip={"Send Stream"}
-              style={{ bottom: "50%", right: "96%" }}
+              className=" right-[96%] bottom-[50%] max-lg:right-[94%]"
               onClick={sendStreams}
               icon={<AiFillForward />}
             />
@@ -212,20 +212,20 @@ const RoomPage = () => {
           {remoteSocketId && (
             <FloatButton
               tooltip={"Call"}
-              style={{ bottom: "40%", right: "96%" }}
+              className=" right-[96%] bottom-[40%] max-lg:right-[94%]"
               onClick={handleCallUser}
               icon={<AiOutlineVideoCameraAdd />}
             />
           )}
-          <div className="video-stream">
-            <div className="my-stream">
+          <div className="video-stream flex flex-row max-lg:block">
+            <div className="my-stream max-lg: w-[90%] max-lg:ml-[-8%] max-lg:mb-10">
               {myStream && (
                 <>
                   <VideoPlayer url={myStream} muted={true} />
                 </>
               )}{" "}
             </div>
-            <div className="remote-stream">
+            <div className="remote-stream max-lg: w-[90%] ml-[-8%]">
               {remoteStream && (
                 <>
                   <VideoPlayer url={remoteStream} muted={false} />

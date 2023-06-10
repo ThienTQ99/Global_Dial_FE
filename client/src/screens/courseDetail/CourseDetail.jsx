@@ -13,11 +13,11 @@ const CourseDetail = () => {
 
   return (
     <>
-      <div className="flex flex-row">
-        <div className="m-[5%] basis-3/5 rounded-lg">
-          <Image src={post.image[0]} width={900} height={500} />
+      <div className="flex flex-row max-lg:block">
+        <div className="m-[5%] basis-3/5 rounded-lg max-lg:w-full max-lg:ml-0 ">
+          <Image src={post.image[0]} width="90%" height={500} />
         </div>
-        <div className="bg-white basis-1/5 mt-[5%] rounded-md h-fit">
+        <div className="bg-white basis-1/5 mt-[5%] rounded-md h-fit max-lg:w-[90%] max-lg:ml-[5%]">
           <div className="font-semibold text-base text-left pl-6 pt-6">
             {post.courseName}
           </div>
@@ -84,7 +84,7 @@ const CourseDetail = () => {
         </div>
       </div>
       <div className="">
-        <div className="bg-white ml-[5%] mr-[8.5%] pt-4 rounded-lg  mb-4">
+        <div className="bg-white ml-[5%] mr-[8.5%] pt-4 rounded-lg  mb-4 max-lg:mt-10 mr-7">
           <div>
             <h1 className=" pl-[5%] text-3xl font-semibold pb-4">
               Courses Description
@@ -135,8 +135,8 @@ const CourseDetail = () => {
             <h1 className=" pl-[5%] text-3xl font-semibold pb-4  pt-4">
               Related Courses
             </h1>
-            <div className="flex flex-row ml-[5%] pb-8">
-              <div class="basis-1-4 mr-14">
+            <div className="flex flex-row ml-[5%] pb-8 max-lg:block space-x-14">
+              <div class="basis-1-4 mr-14 max-lg:pl-14 pb-10 ">
                 <Card
                   hoverable
                   style={{ width: 340 }}
@@ -154,7 +154,7 @@ const CourseDetail = () => {
                   />
                 </Card>
               </div>
-              <div class="basis-1-4 mr-14">
+              <div class="basis-1-4 mr-14 max-lg:pb-10">
                 <Card
                   hoverable
                   style={{ width: 340 }}
