@@ -7,6 +7,7 @@ import LoginPage from "./screens/login/Login";
 import NavBar from "./component/NavBar/NavBar";
 import Homepage from "./screens/Homepage/Homepage";
 import CourseDetail from "./screens/courseDetail/CourseDetail";
+import Payment from "./screens/payment/Payment";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/room/:roomId" element={<RoomPage />} />
           <Route path="/home" element={<Homepage />} />
           <Route path="/post/:postId" element={<CourseDetail />} />
+          <Route path="/Payment" element={<Payment />} />
         </Route>
         <Route element={<LoginPage />} path="/login" />
         <Route element={<LoginPage />} />

@@ -11,7 +11,7 @@ const PrivateRoutes = () => {
     
 
     return (
-        <div>
+        <div >
             <NavBar />
             {auth.email ? <Outlet /> : <Navigate to="/login" />}
         </div>

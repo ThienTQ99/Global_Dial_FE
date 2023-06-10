@@ -25,7 +25,7 @@ const LoginPage = () =>{
                 // handle success
                 
                 localStorage.setItem("accessToken",response.data.data.accessToken)
-               
+                localStorage.setItem("plan",response.data.data.userData.plan)
             })
                 .catch(function (error) {
                     // handle error
